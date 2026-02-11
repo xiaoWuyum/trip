@@ -11,5 +11,10 @@
     "start:server": "cd server && npm start",
     "start:admin": "cd client-admin && npm run dev",
     "start:mobile": "cd client-mobile && npm run dev:weapp"
+  },
+  "devDependencies": {
+    "@swc/core": "1.3.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   }
 }

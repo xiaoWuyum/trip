@@ -78,6 +78,26 @@ MONGO_URI=mongodb://localhost:27017/easy-stay
 JWT_SECRET=your_jwt_secret_key
 ```
 
+### ☁️ 云数据库（MongoDB Atlas）
+- **为什么用 Atlas**：MongoDB 官方云服务，开箱即用，提供**连接字符串 (Connection String)**。团队三人统一连接同一个云库，数据实时共享与同步。
+- **开通步骤**：
+  - 注册 https://www.mongodb.com/atlas 并创建免费集群（Free Tier）。
+  - 创建数据库用户（用户名/密码），在“Database”→“Connect”中生成连接字符串。
+  - 在“Network Access”中添加允许访问的 IP（开发期可临时设置 `0.0.0.0/0`）。
+- **配置示例**：将连接字符串写入 `server/.env` 的 `MONGO_URI`：
+
+```properties
+# SRV 连接示例（请替换用户名、密码、集群名、库名）
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/easy-stay?retryWrites=true&w=majority&appName=<AppName>
+```
+
+- **团队协作说明**：
+  - 统一使用同一个 Atlas 连接字符串，A 同学在管理端或后端录入数据，B/C 在各自电脑运行项目即可**实时看到同一份数据**。
+  - 切记不要把 `.env` 提交到仓库（已在 `.gitignore` 中忽略）。
+- **安全建议**：
+  - 开发阶段可使用开放 IP，上线前务必收紧 IP 白名单。
+  - 数据库用户仅授予必要权限；定期轮换密码。
+
 ### 4. 启动项目
 
 我们提供了便捷的 NPM Scripts 来启动各个服务：
@@ -127,5 +147,4 @@ easy-stay-monorepo/
 - [ ] **Phase 2**: B端管理后台开发 (商户录入 + 管理员审核)。
 - [ ] **Phase 3**: C端移动端开发 (列表渲染优化 + 预订流程)。
 - [ ] **Phase 4**: 联调与 Bug Fix，文档完善。
-
 

@@ -2,6 +2,7 @@
   "name": "easy-stay-mobile",
   "version": "1.0.0",
   "private": true,
+  "workspaces": ["./*"],
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:h5": "taro build --type h5",
@@ -9,17 +10,24 @@
     "dev:h5": "npm run build:h5 -- --watch"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@tarojs/taro": "3.6.2",
     "@tarojs/components": "3.6.2",
-    "@tarojs/runtime": "3.6.2",
     "@tarojs/react": "3.6.2",
+    "@tarojs/runtime": "3.6.2",
+    "@tarojs/taro": "3.6.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "taro-ui": "^3.0.0-alpha.10"
   },
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@tarojs/cli": "3.6.2",
+    "@tarojs/plugin-framework-react": "3.6.2",
+    "@tarojs/plugin-platform-h5": "^3.6.2",
     "@tarojs/webpack5-runner": "3.6.2",
-    "babel-preset-taro": "3.6.2"
+    "babel-preset-taro": "3.6.2",
+    "react-refresh": "^0.18.0",
+    "sass": "^1.97.3",
+    "typescript": "^5.4.5",
+    "webpack": "^5.105.1"
   }
 }
