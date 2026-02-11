@@ -1,0 +1,15 @@
+{
+  "name": "easy-stay-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client-mobile",
+    "client-admin",
+    "server"
+  ],
+  "scripts": {
+    "start:server": "cd server && npm start",
+    "start:admin": "cd client-admin && npm run dev",
+    "start:mobile": "cd client-mobile && npm run dev:weapp"
+  }
+}

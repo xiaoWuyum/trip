@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Env
+.env
+.env.local
+
+# Build outputs
+/dist/
+/build/
+
+# Taro
+/.temp/
+/.rn_temp/
+/.h5/
+/.weapp/
+/.alipay/
+/.swan/
+/.tt/
+/.qq/
+/.jd/
+
+# Vite
+client-admin/dist/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+
