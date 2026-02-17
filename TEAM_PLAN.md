@@ -39,6 +39,8 @@
 - 数据存储：
   - Web（浏览器）：`localStorage`
   - Mobile（小程序）：Taro Storage
+  - Mobile（H5）：浏览器 `localStorage`（可用于与 Web 端联动演示）
+  - Mobile（APP/RN）：Metro `8081`（与存储无关，存储由 RN 环境决定）
   - 建议 key：`easystay_users`、`easystay_hotels`、`easystay_orders`
 - 用户角色：`merchant`、`admin`、`user`（移动端默认 `user`）。
 - 酒店状态：`pending`、`active`、`rejected`、`offline`（下线可恢复，不删除）。

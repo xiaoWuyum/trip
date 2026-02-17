@@ -1,16 +1,34 @@
-# React + Vite
+# 易宿管理端（Web / PC）
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+本目录为 **B 端管理后台（商户/管理员）**，当前以 **纯前端演示** 为目标：不依赖后端服务，酒店/审核/上下架等数据通过 `localStorage` 模拟。
 
-Currently, two official plugins are available:
+## 环境要求
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js >= 18
 
-## React Compiler
+## 启动
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+在仓库根目录执行依赖安装后：
 
-## Expanding the ESLint configuration
+```bash
+cd client-admin
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+默认端口为 `5173`，若被占用会自动递增。
+
+## 演示账号
+
+- 商户：`merchant` / `123456`
+- 管理员：`admin` / `123456`
+
+## 演示流程（建议）
+
+1. 用商户账号登录 → 进入“我的酒店” → “发布酒店”提交（状态应为 `pending`）。
+2. 退出登录，用管理员账号登录 → 进入“酒店审核” → 通过或驳回（驳回原因必填）。
+3. 回到商户端查看酒店状态与驳回原因；尝试上下线（下线可恢复）。
+
+## 数据存储
+
+管理端会把数据写入 `localStorage`，供移动端读取与联动演示。
+

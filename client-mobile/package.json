@@ -6,14 +6,19 @@
   "scripts": {
     "build:weapp": "taro build --type weapp",
     "build:h5": "taro build --type h5",
+    "build:rn:ios": "taro build --type rn --platform ios",
+    "build:rn:android": "taro build --type rn --platform android",
     "dev:weapp": "npm run build:weapp -- --watch",
-    "dev:h5": "npm run build:h5 -- --watch"
+    "dev:h5": "npm run build:h5 -- --watch",
+    "dev:rn:ios": "npm run build:rn:ios -- --watch",
+    "dev:rn:android": "npm run build:rn:android -- --watch"
   },
   "dependencies": {
     "@tarojs/components": "3.6.2",
     "@tarojs/react": "3.6.2",
     "@tarojs/runtime": "3.6.2",
     "@tarojs/taro": "3.6.2",
+    "process": "^0.11.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "taro-ui": "^3.0.0-alpha.10"
@@ -21,8 +26,12 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@tarojs/cli": "3.6.2",
+    "@tarojs/components-rn": "3.6.2",
     "@tarojs/plugin-framework-react": "3.6.2",
-    "@tarojs/plugin-platform-h5": "^3.6.2",
+    "@tarojs/plugin-platform-h5": "3.6.2",
+    "@tarojs/rn-runner": "3.6.2",
+    "@tarojs/router-rn": "3.6.2",
+    "@tarojs/taro-rn": "3.6.2",
     "@tarojs/webpack5-runner": "3.6.2",
     "babel-preset-taro": "3.6.2",
     "react-refresh": "^0.18.0",
