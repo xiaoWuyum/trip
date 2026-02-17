@@ -3,6 +3,11 @@
 
 **易宿酒店预订平台 (EasyStay)** 旨在打造一个高性能、全流程的酒店服务生态。项目采用**Monorepo**架构，前端覆盖移动端（C端用户）与PC管理端（B端商户/管理员），后端基于Node.js构建RESTful API。
 
+**当前交付范围说明（重要）**：
+*   本仓库以 **纯前端开发/演示** 为主，不部署后端与数据库。
+*   所有数据通过 **本地 Mock（内存 / localStorage / JSON）** 模拟，保证业务流程可演示、可验收。
+*   “接口/鉴权”以**前端数据服务**的方式实现：模拟 Token、角色与状态流转。
+
 **核心价值**：
 *   **工程化实践**：展示前后端分离、组件复用、权限控制等完整工程能力。
 *   **性能极致**：针对长列表渲染、图片懒加载、数据实时性进行深度优化。
@@ -94,9 +99,9 @@
 *   **图片优化**: 所有列表图片开启懒加载 (Lazy Load)，非可视区域不加载。
 
 ### 4.2 安全性
-*   **身份认证**: 全站采用 JWT (JSON Web Token) 鉴权。
-*   **数据安全**: 用户密码需在后端进行 Hash 加密存储 (如 bcrypt)。
-*   **权限控制**: 后端接口必须校验 `role`，防止越权操作 (如商户A修改商户B的酒店)。
+*   **身份认证（纯前端模拟）**: 使用本地 Token + `role` 字段模拟鉴权与登录态。
+*   **数据安全（演示级）**: 演示账号可使用固定密码；不在仓库中提交任何真实凭证。
+*   **权限控制（前端视图隔离）**: 路由与菜单必须根据 `role` 控制可见范围，阻止越权进入页面。
 
 ### 4.3 数据一致性
 *   **价格同步**: 商户修改价格后，C端需在短时间内（或刷新后）看到最新价格。
@@ -105,6 +110,8 @@
 ---
 
 ## 5. 数据模型设计 (Database Schema)
+
+> 说明：纯前端模式下，以下数据模型以 `localStorage` 或内存对象保存，用于演示业务闭环。
 
 ### 5.1 User (用户)
 ```javascript
@@ -172,21 +179,21 @@
 
 ## 6. 接口设计 (API Endpoints)
 
-| 方法 | 路径 | 描述 | 权限 |
+纯前端模式下不对外提供真实 HTTP API，统一以“前端数据服务”实现，可按以下契约模拟（函数名或 mock 路径均可）：
+
+| 模块 | 名称 | 描述 | 权限 |
 | :--- | :--- | :--- | :--- |
-| **Auth** | | | |
-| POST | `/api/auth/register` | 注册 (支持选角色) | Public |
-| POST | `/api/auth/login` | 登录 (返回 Token + UserInfo) | Public |
-| **Hotel** | | | |
-| GET | `/api/hotels` | 列表查询 (支持分页, city, price) | Public |
-| GET | `/api/hotels/:id` | 详情查询 (含房型) | Public |
-| POST | `/api/hotels` | 创建酒店 | Merchant |
-| PUT | `/api/hotels/:id` | 更新信息 | Merchant |
-| PATCH| `/api/hotels/:id/status` | 审核/状态变更 | Admin |
-| **Order** | | | |
-| POST | `/api/orders` | 创建订单 | User |
-| GET | `/api/orders/my` | 获取当前用户订单 | User |
-| GET | `/api/orders/merchant` | 获取商户关联订单 | Merchant |
+| Auth | `login(username, password)` | 登录（返回 `token` + `user`） | Public |
+| Auth | `register(username, password, role)` | 注册（演示可直接登录） | Public |
+| Hotel | `getHotels(query)` | 酒店列表查询（分页/筛选/搜索） | Public |
+| Hotel | `getHotelById(id)` | 酒店详情（含房型） | Public |
+| Hotel | `getMyHotels(merchantId)` | 商户“我的酒店”列表 | Merchant |
+| Hotel | `createHotel(payload)` | 创建酒店（初始 `pending`） | Merchant |
+| Hotel | `updateHotel(id, payload)` | 编辑酒店信息 | Merchant |
+| Hotel | `auditHotel(id, status, auditRemark)` | 审核通过/驳回 | Admin |
+| Hotel | `toggleHotelOnline(id)` | 上下线（可恢复，不删除） | Admin/Merchant |
+| Order | `createOrder(payload)` | 创建订单（演示支付模拟） | User |
+| Order | `getMyOrders(userId)` | 用户订单列表 | User |
 
 ---
 

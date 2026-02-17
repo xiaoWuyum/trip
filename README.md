@@ -5,8 +5,8 @@
 [![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-LTS-green)](https://nodejs.org/)
 
-> 一个集“C端用户预订”与“B端商户/管理后台”为一体的综合性酒店服务平台。
-> 本项目采用 Monorepo 架构，注重用户体验、数据实时性及高并发场景下的列表渲染性能。
+> 一个集“C 端用户预订”与“B 端商户/管理后台”为一体的综合性酒店服务平台。
+> 当前仓库以 **纯前端交付** 为目标：不包含后端/数据库部署，所有数据通过 **本地 Mock（内存 / localStorage）** 模拟，专注页面、交互、权限视图与性能优化（如虚拟列表）。
 
 ---
 
@@ -15,7 +15,6 @@
 - [产品需求文档 (PRD)](./PRD.md)
 - [移动端 (C-Side) 说明](./client-mobile/README.md)
 - [管理端 (B-Side) 说明](./client-admin/README.md)
-- [后端服务 (Server) 说明](./server/README.md)
 
 ---
 
@@ -34,10 +33,9 @@
 - **高效工作流**: 集成 Ant Design 5.0，提供强大的表单与表格交互体验。
 - **数据可视化**: 直观展示订单状态与审核进度。
 
-### 🔙 后端服务
-- **RESTful API**: 基于 Express/Koa 构建的标准接口。
-- **MongoDB**: 利用 GeoJSON 实现地理位置查询 (`$near`)。
-- **安全鉴权**: 全站采用 JWT 无状态认证。
+### 🧩 纯前端数据
+- **本地 Mock 数据**: 使用内存与 `localStorage` 模拟酒店、房型、订单、审核状态等。
+- **模拟鉴权**: 通过本地 Token 与角色字段，完成“商户/管理员”视图隔离。
 
 ---
 
@@ -48,8 +46,7 @@
 | **Monorepo** | NPM Workspaces | 统一管理依赖，代码分层清晰 |
 | **Mobile (C-Side)** | React + Taro + Taro UI | 跨端能力强，生态成熟 |
 | **Admin (B-Side)** | React (Vite) + Ant Design 5 | B端标准组件库，开发效率高 |
-| **Server** | Node.js + Express + MongoDB | 灵活的文档型数据库适合复杂酒店数据 |
-| **Auth** | JWT (JSON Web Token) | 适合前后端分离的无状态认证 |
+| **Mock Data** | localStorage / In-Memory | 纯前端交付，方便演示与验收 |
 | **Tools** | ESLint + Prettier + Husky | 规范代码质量 |
 
 ---
@@ -58,8 +55,7 @@
 
 ### 1. 环境准备
 确保您的环境已安装：
-- Node.js >= 16.0.0
-- MongoDB (本地或远程服务)
+- Node.js >= 18.0.0（管理端使用 Vite 5）
 
 ### 2. 安装依赖
 在项目根目录下运行：
@@ -69,49 +65,25 @@
 npm install --legacy-peer-deps
 ```
 
-### 3. 配置环境变量
-在 `server` 目录下创建 `.env` 文件：
-
-```properties
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/easy-stay
-JWT_SECRET=your_jwt_secret_key
-```
-
-### ☁️ 云数据库（MongoDB Atlas）
-- **为什么用 Atlas**：MongoDB 官方云服务，开箱即用，提供**连接字符串 (Connection String)**。团队三人统一连接同一个云库，数据实时共享与同步。
-- **开通步骤**：
-  - 注册 https://www.mongodb.com/atlas 并创建免费集群（Free Tier）。
-  - 创建数据库用户（用户名/密码），在“Database”→“Connect”中生成连接字符串。
-  - 在“Network Access”中添加允许访问的 IP（开发期可临时设置 `0.0.0.0/0`）。
-- **配置示例**：将连接字符串写入 `server/.env` 的 `MONGO_URI`：
-
-```properties
-# SRV 连接示例（请替换用户名、密码、集群名、库名）
-MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/easy-stay?retryWrites=true&w=majority&appName=<AppName>
-```
-
-- **团队协作说明**：
-  - 统一使用同一个 Atlas 连接字符串，A 同学在管理端或后端录入数据，B/C 在各自电脑运行项目即可**实时看到同一份数据**。
-  - 切记不要把 `.env` 提交到仓库（已在 `.gitignore` 中忽略）。
-- **安全建议**：
-  - 开发阶段可使用开放 IP，上线前务必收紧 IP 白名单。
-  - 数据库用户仅授予必要权限；定期轮换密码。
+### 3. 数据来源说明
+纯前端模式下无需数据库与后端环境变量。酒店/房型/订单/审核等数据通过本地 Mock 模拟（内存或 `localStorage`）。
 
 ### 4. 启动项目
 
 我们提供了便捷的 NPM Scripts 来启动各个服务：
 
 ```bash
-# 启动后端服务 (Port: 5000)
-npm run start:server
-
-# 启动 B端管理后台 (Port: 5173)
+# 启动 B 端管理后台
 npm run start:admin
 
-# 启动 C端移动端 (微信小程序模式)
+# 启动 C 端移动端 (微信小程序模式)
 npm run start:mobile
 ```
+
+### 5. 演示账号（管理端）
+
+- 商户：`merchant` / `123456`
+- 管理员：`admin` / `123456`
 
 ---
 
@@ -128,12 +100,7 @@ easy-stay-monorepo/
 │   ├── src/
 │   │   ├── pages/      # (登录, 酒店录入, 审核列表)
 │   │   └── utils/      # 工具函数 (鉴权, 格式化)
-├── server/             # Node.js 后端
-│   ├── src/
-│   │   ├── controllers/# 业务逻辑层
-│   │   ├── models/     # 数据库模型 (Schema)
-│   │   ├── routes/     # 路由定义
-│   │   └── middlewares/# 中间件 (Auth, ErrorHandler)
+├── server/             # 历史目录（当前纯前端交付不使用）
 ├── PRD.md              # 详细产品需求文档
 └── README.md           # 项目入口文档
 ```
@@ -143,8 +110,7 @@ easy-stay-monorepo/
 ## 📅 开发计划 (Timeline)
 
 - [x] **Phase 0**: 项目初始化，Monorepo 搭建。
-- [ ] **Phase 1**: 后端核心 API 开发 (Auth, Hotel CRUD)。
-- [ ] **Phase 2**: B端管理后台开发 (商户录入 + 管理员审核)。
-- [ ] **Phase 3**: C端移动端开发 (列表渲染优化 + 预订流程)。
-- [ ] **Phase 4**: 联调与 Bug Fix，文档完善。
+- [ ] **Phase 1**: 管理端开发 (商户录入 + 管理员审核，纯前端 Mock)。
+- [ ] **Phase 2**: 移动端开发 (列表渲染优化 + 预订流程，纯前端 Mock)。
+- [ ] **Phase 3**: Bug Fix，文档完善。
 
